@@ -3,3 +3,8 @@
 !/storage/uploads/.gitkeep
 /storage/backups/*
 !/storage/backups/.gitkeep
+
+/vendor/
+.phpunit.result.cache
+/docs/testing/evidence/coverage/
+.env
