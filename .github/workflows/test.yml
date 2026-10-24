@@ -20,7 +20,7 @@ jobs:
         coverage: xdebug
 
     - name: Install Dependencies
-      run: composer install --prefer-dist --no-progress
+      run: composer install --prefer-dist --no-progress --ignore-platform-reqs
 
     - name: Execute PHPUnit Suite
       run: vendor/bin/phpunit --colors=always
