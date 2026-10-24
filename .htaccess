@@ -1,0 +1,8 @@
+Options -Indexes
+RewriteEngine On
+
+RewriteRule ^(?:app|config|database|scripts|storage|\.git)(?:/|$) - [F,L,NC]
+RewriteRule ^config(?:\.local|\.example)?\.php$ - [F,L,NC]
+RewriteRule ^(?:index|admin|actions|file|setup)\.php$ public/$0 [L,NC]
+RewriteRule ^assets/(.*)$ public/assets/$1 [L,NC]
+RewriteRule ^$ public/index.php [L,NC]
