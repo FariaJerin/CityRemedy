@@ -8,3 +8,5 @@
 .phpunit.result.cache
 /docs/testing/evidence/coverage/
 .env
+
+composer.lock
