@@ -14,7 +14,7 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
           MYSQL_DATABASE: cityremedy_test
         ports:
           - 3306:3306
@@ -35,7 +35,7 @@ jobs:
         run: composer install --prefer-dist --no-progress --ignore-platform-reqs
 
       - name: Import Database Schema
-        run: mysql -h 127.0.0.1 -P 3306 -u root -proot cityremedy_test < database/schema.sql
+        run: mysql -h 127.0.0.1 -P 3306 -u root cityremedy_test < database/schema.sql
         continue-on-error: true
 
       - name: Run PHPUnit Tests
@@ -44,6 +44,7 @@ jobs:
           DB_PORT: 3306
           DB_NAME: cityremedy_test
           DB_USER: root
-          DB_PASS: root
+          DB_PASS: ""
         run: vendor/bin/phpunit --testdox
 
+        
