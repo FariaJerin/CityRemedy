@@ -1,4 +1,4 @@
-# CityRemedy — PHP and MySQL
+# CityRemedy 
 
 CityRemedy is a civic issue reporting and tracking website built with PHP, HTML, CSS, JavaScript, and MySQL. It is organized to run locally with Apache and MySQL in XAMPP.
 CityRemedy enables citizens to report local infrastructure problems (e.g., road damage, streetlight failures, garbage accumulation) with multimedia evidence. The system routes complaints directly to relevant city departments, facilitates validation through numeric verification scores, manages physical issue resolution, and captures public feedback to improve municipal accountability.
