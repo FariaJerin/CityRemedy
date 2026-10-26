@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-// 1. Set environment variables for the test environment
+// 1. Set environment variables for test execution
 putenv('DB_NAME=cityremedy_test');
 
 if (getenv('GITHUB_ACTIONS') === 'true') {
@@ -11,12 +11,12 @@ if (getenv('GITHUB_ACTIONS') === 'true') {
     putenv('DB_PASS=');
 }
 
-// 2. Include composer autoloader if present
+// 2. Autoload dependencies
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     require_once __DIR__ . '/../vendor/autoload.php';
 }
 
-// 3. Auto-seed schema before app initialization if running in GitHub CI
+// 3. Auto-seed schema in GitHub Actions CI environment
 if (getenv('GITHUB_ACTIONS') === 'true') {
     try {
         $host = getenv('DB_HOST') ?: '127.0.0.1';
@@ -26,8 +26,10 @@ if (getenv('GITHUB_ACTIONS') === 'true') {
         $dbname = 'cityremedy_test';
 
         $pdo = new PDO("mysql:host={$host};port={$port}", $user, $pass, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::MYSQL_ATTR_MULTI_STATEMENTS => true
         ]);
+
         $pdo->exec("CREATE DATABASE IF NOT EXISTS `{$dbname}`");
         $pdo->exec("USE `{$dbname}`");
 
@@ -41,6 +43,6 @@ if (getenv('GITHUB_ACTIONS') === 'true') {
     }
 }
 
-// 4. Include your main app bootstrap
+// 4. Load application bootstrap
 require_once __DIR__ . '/../app/bootstrap.php';
 

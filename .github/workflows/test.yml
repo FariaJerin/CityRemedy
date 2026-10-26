@@ -34,6 +34,9 @@ jobs:
       - name: Install Dependencies
         run: composer install --prefer-dist --no-progress --ignore-platform-reqs
 
+      - name: Import Database Schema CLI
+        run: mysql -h 127.0.0.1 -P 3306 -u root cityremedy_test < database/schema.sql
+
       - name: Run PHPUnit Tests
         env:
           GITHUB_ACTIONS: "true"
