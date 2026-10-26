@@ -26,8 +26,7 @@ if (getenv('GITHUB_ACTIONS') === 'true') {
         $dbname = 'cityremedy_test';
 
         $pdo = new PDO("mysql:host={$host};port={$port}", $user, $pass, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::MYSQL_ATTR_MULTI_STATEMENTS => true
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         ]);
 
         $pdo->exec("CREATE DATABASE IF NOT EXISTS `{$dbname}`");
@@ -36,7 +35,16 @@ if (getenv('GITHUB_ACTIONS') === 'true') {
         $schemaFile = __DIR__ . '/../database/schema.sql';
         if (file_exists($schemaFile)) {
             $sql = file_get_contents($schemaFile);
-            $pdo->exec($sql);
+            
+            // Remove comments and split SQL queries by semicolon
+            $sql = preg_replace('/--.*|\/\*[\s\S]*?\*\//', '', $sql);
+            $queries = array_filter(array_map('trim', explode(';', $sql)));
+
+            foreach ($queries as $query) {
+                if (!empty($query)) {
+                    $pdo->exec($query);
+                }
+            }
         }
     } catch (\Throwable $e) {
         error_log("CI DB Seed Warning: " . $e->getMessage());
@@ -45,4 +53,5 @@ if (getenv('GITHUB_ACTIONS') === 'true') {
 
 // 4. Load application bootstrap
 require_once __DIR__ . '/../app/bootstrap.php';
+
 
