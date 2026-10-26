@@ -34,7 +34,7 @@ jobs:
       - name: Install Dependencies
         run: composer install --prefer-dist --no-progress --ignore-platform-reqs
 
-      - name: Import Database Schema CLI
+      - name: Seed Test Database Schema
         run: mysql -h 127.0.0.1 -P 3306 -u root cityremedy_test < database/schema.sql
 
       - name: Run PHPUnit Tests
@@ -46,6 +46,5 @@ jobs:
           DB_USER: root
           DB_PASS: ""
         run: vendor/bin/phpunit --testdox
-
 
         
