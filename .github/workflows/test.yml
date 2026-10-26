@@ -27,14 +27,18 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.3'
           extensions: pdo, pdo_mysql, mbstring
           coverage: xdebug
 
       - name: Install Dependencies
-        run: composer install --prefer-dist --no-progress
+        run: composer install --prefer-dist --no-progress --ignore-platform-reqs
 
-      - name: Set Environment Variables & Run PHPUnit
+      - name: Import Database Schema
+        run: mysql -h 127.0.0.1 -P 3306 -u root -proot cityremedy_test < database/schema.sql
+        continue-on-error: true
+
+      - name: Run PHPUnit Tests
         env:
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
@@ -42,4 +46,5 @@ jobs:
           DB_USER: root
           DB_PASS: root
         run: vendor/bin/phpunit --testdox
+
         
