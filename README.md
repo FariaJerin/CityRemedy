@@ -16,8 +16,8 @@ This folder is the standalone application:  PHP renders the HTML pages; CSS and 
 1. Copy the `cityremedy-xampp` folder into XAMPP's `htdocs` folder and rename it `CityRemedy` if needed.
 2. Start **Apache** and **MySQL** in the XAMPP Control Panel.
 3. Open phpMyAdmin at `http://localhost/phpmyadmin`, choose **Import**, and import `CityRemedy/database/schema.sql`. The schema creates the `cityremedy` database and its tables. It does not drop existing tables.
-4. If you use a different folder or database account, update `base_url`, `db_user`, and `db_pass`.
-5. Open `http://localhost/CityRemedy/public/setup.php` and create the first system administrator. There are no default officer credentials.
+4. Copy `config.example.php` to `config.local.php`. Update `base_url`, `db_user`, and `db_pass` as needed, then set `setup_key` to a randomly generated secret of at least 32 characters. For example, generate one with `php -r "echo bin2hex(random_bytes(32)), PHP_EOL;"`. Keep this key private.
+5. Open `http://localhost/CityRemedy/public/setup.php`, enter the setup key, and create the first system administrator. Remove the key from `config.local.php` after setup. There are no default officer credentials.
 6. Sign in at `http://localhost/CityRemedy/public/admin.php?view=login`. From the system administrator account, create an officer account for each department under **Officer accounts**.
 7. Citizens can create accounts at `http://localhost/CityRemedy/public/index.php?page=register`.
 

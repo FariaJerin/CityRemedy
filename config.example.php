@@ -11,4 +11,5 @@ return [
     'db_user' => 'root',
     'db_pass' => '',
     'upload_max_bytes' => 8 * 1024 * 1024,
+    'setup_key' => '',
 ];
