@@ -34,11 +34,9 @@ jobs:
       - name: Install Dependencies
         run: composer install --prefer-dist --no-progress --ignore-platform-reqs
 
-      - name: Seed Test Database Schema
-        run: mysql -h 127.0.0.1 -u root cityremedy_test < database/schema.sql
-
       - name: Run PHPUnit Tests
         env:
+          GITHUB_ACTIONS: "true"
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_NAME: cityremedy_test
