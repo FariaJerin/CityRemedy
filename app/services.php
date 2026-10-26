@@ -25,6 +25,12 @@ function categories(): array
     ];
 }
 
+function parse_feedback_rating(mixed $value): ?int
+{
+    $rating = filter_var($value, FILTER_VALIDATE_INT);
+    return $rating !== false && $rating >= 1 && $rating <= 5 ? $rating : null;
+}
+
 function department_id_for(string $slug): ?int
 {
     $statement = db()->prepare('SELECT department_id FROM departments WHERE slug = ? AND is_active = 1');

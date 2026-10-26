@@ -10,10 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verify_csrf();
     if ($adminCount > 0) {
         $error = 'The initial setup is already complete. Sign in from the officer portal.';
-    } elseif ($setupEnabled && !hash_equals($setupKey, (string)($_POST['setup_key'] ?? ''))) {
-        $error = 'The setup key is incorrect.';
     } elseif (!$setupEnabled) {
         $error = 'Initial setup is disabled. Configure a setup key in config.local.php.';
+    } elseif (!hash_equals($setupKey, (string)($_POST['setup_key'] ?? ''))) {
+        $error = 'The setup key is incorrect.';
     } else {
         $name = post_string('full_name', 120);
         $email = mb_strtolower(post_string('email', 190));

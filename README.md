@@ -1,4 +1,4 @@
-# CityRemedy 
+# CityRemedy — PHP and MySQL
 
 CityRemedy is a civic issue reporting and tracking website built with PHP, HTML, CSS, JavaScript, and MySQL. It is organized to run locally with Apache and MySQL in XAMPP.
 CityRemedy enables citizens to report local infrastructure problems (e.g., road damage, streetlight failures, garbage accumulation) with multimedia evidence. The system routes complaints directly to relevant city departments, facilitates validation through numeric verification scores, manages physical issue resolution, and captures public feedback to improve municipal accountability.
@@ -42,6 +42,10 @@ Community support reaching the configured vote threshold prioritizes a report fo
 The app accepts up to four JPG, PNG, WebP, or PDF evidence files, up to 8 MB each. Completion proof must be a JPG, PNG, or WebP image. In `php.ini`, set `upload_max_filesize` to at least `8M` and `post_max_size` to at least `36M`; then restart Apache. Uploaded files are kept outside the public web directory. Citizen evidence is available only to the report owner and authorized department officers; published completion photos are public.
 
 For internet hosting, configure Apache to serve the site over HTTPS and enable the secure cookie flag. The local XAMPP instructions use `http://localhost` for development.
+
+## Tests
+
+Run the standalone test suite with `vendor/bin/phpunit --no-coverage`. The database connectivity check is opt-in; it requires `pdo_mysql` and an isolated `cityremedy_test` database. Set `CITYREMEDY_TEST_DB=1` to enable it.
 
 ## Database and file backups
 

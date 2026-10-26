@@ -8,7 +8,7 @@ $config = is_file($localConfig)
 
 define('APP_NAME', (string)($config['app_name'] ?? 'CityRemedy'));
 define('APP_BASE_URL', rtrim((string)($config['base_url'] ?? '/CityRemedy/public'), '/'));
-define('UPLOAD_MAX_BYTES', (int)($config['upload_max_bytes'] ?? 8 * 1024 * 1024));
+define('UPLOAD_MAX_BYTES', (int)($config['upload_max_bytes'] ?? (8 * 1024 * 1024)));
 define('UPLOAD_DIRECTORY', dirname(__DIR__) . '/storage/uploads');
 
 if (PHP_SAPI !== 'cli' && session_status() !== PHP_SESSION_ACTIVE) {
@@ -37,7 +37,8 @@ function db(): PDO
 
     $host = (string)($config['db_host'] ?? '127.0.0.1');
     $port = (string)($config['db_port'] ?? '3306');
-    $name = (string)($config['db_name'] ?? 'cityremedy');
+    // Read from environment variable if set (for PHPUnit), otherwise fallback to config or default
+    $name = getenv('DB_NAME') ?: (string)($config['db_name'] ?? 'cityremedy');
     $user = (string)($config['db_user'] ?? 'root');
     $pass = (string)($config['db_pass'] ?? '');
 
@@ -53,3 +54,5 @@ function db(): PDO
     );
     return $pdo;
 }
+
+

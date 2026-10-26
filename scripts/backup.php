@@ -26,10 +26,19 @@ try {
     if ($stream === false) {
         throw new RuntimeException('Could not create the database backup file.');
     }
+    $write = static function (string $contents) use (&$stream): void {
+        $length = strlen($contents);
+        for ($offset = 0; $offset < $length;) {
+            $written = fwrite($stream, substr($contents, $offset));
+            if ($written === false || $written === 0) {
+                throw new RuntimeException('Could not write the database backup file.');
+            }
+            $offset += $written;
+        }
+    };
 
     $restoreDatabase = 'cityremedy_restore_' . $stamp;
-    fwrite(
-        $stream,
+    $write(
         "-- CityRemedy database snapshot created " . date(DATE_ATOM) . "\n"
         . "-- Importing this file creates a separate restore database; it does not overwrite cityremedy.\n"
         . "CREATE DATABASE IF NOT EXISTS `{$restoreDatabase}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\n"
@@ -69,7 +78,7 @@ try {
             throw new RuntimeException('Could not read the table definition for ' . $table . '.');
         }
         $createSql = preg_replace('/^CREATE TABLE /i', 'CREATE TABLE IF NOT EXISTS ', (string)$createStatement[1], 1);
-        fwrite($stream, $createSql . ";\n\n");
+        $write($createSql . ";\n\n");
 
         $rows = $pdo->query('SELECT * FROM ' . $quotedTable);
         while ($row = $rows->fetch(PDO::FETCH_ASSOC)) {
@@ -90,16 +99,17 @@ try {
                     $values[] = $quotedValue;
                 }
             }
-            fwrite(
-                $stream,
+            $write(
                 'INSERT INTO ' . $quotedTable . ' (' . implode(', ', $quotedColumns) . ') VALUES ('
                 . implode(', ', $values) . ");\n"
             );
         }
-        fwrite($stream, "\n");
+        $write("\n");
     }
-    fwrite($stream, "SET FOREIGN_KEY_CHECKS=1;\n");
-    fclose($stream);
+    $write("SET FOREIGN_KEY_CHECKS=1;\n");
+    if (!fclose($stream)) {
+        throw new RuntimeException('Could not finish writing the database backup file.');
+    }
     $stream = null;
     $pdo->commit();
 

@@ -281,7 +281,7 @@ try {
         case 'feedback': {
             $citizen = require_citizen();
             $complaintId = strtoupper(post_string('complaint_id', 32));
-            $rating = filter_var($_POST['star_rating'] ?? null, FILTER_VALIDATE_INT);
+            $rating = parse_feedback_rating($_POST['star_rating'] ?? null);
             $comments = post_string('comments', 1000);
             $complaint = find_complaint($complaintId);
             if (!$complaint
@@ -289,7 +289,7 @@ try {
                 || $complaint['status'] !== 'Resolved') {
                 action_fail('Feedback is available after your report is resolved.', page_url('track', ['id' => $complaintId]));
             }
-            if ($rating === false || $rating < 1 || $rating > 5) {
+            if ($rating === null) {
                 action_fail('Choose a rating from 1 to 5 stars.', page_url('track', ['id' => $complaintId]));
             }
             $pdo = db();
