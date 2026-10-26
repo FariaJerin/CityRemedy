@@ -18,11 +18,15 @@ jobs:
           MYSQL_DATABASE: cityremedy_test
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -34,8 +38,38 @@ jobs:
       - name: Install Dependencies
         run: composer install --prefer-dist --no-progress --ignore-platform-reqs
 
+      - name: Wait for MySQL
+        shell: bash
+        run: |
+          for i in $(seq 1 30); do
+            if mysqladmin ping -h 127.0.0.1 -P 3306 -u root --silent; then
+              echo "MySQL is ready"
+              exit 0
+            fi
+            echo "Waiting for MySQL ($i/30)..."
+            sleep 2
+          done
+          echo "MySQL did not become ready in time" >&2
+          exit 1
+
+      # database/schema.sql is written for the real database: it starts with
+      #   CREATE DATABASE IF NOT EXISTS cityremedy ...;  USE cityremedy;
+      # Importing it as-is silently builds every table in `cityremedy`, while the
+      # tests connect to `cityremedy_test` (-> "Table cityremedy_test.complaints
+      # doesn't exist"). Strip those two statements so the tables are created in
+      # the database we pass on the command line.
       - name: Seed Test Database Schema
-        run: mysql -h 127.0.0.1 -P 3306 -u root cityremedy_test < database/schema.sql
+        shell: bash
+        run: |
+          MYSQL="mysql -h 127.0.0.1 -P 3306 -u root"
+          $MYSQL -e "CREATE DATABASE IF NOT EXISTS cityremedy_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
+          sed -e '/^CREATE DATABASE/,/^USE /d' database/schema.sql | $MYSQL cityremedy_test
+          echo "Tables in cityremedy_test:"
+          $MYSQL cityremedy_test -e "SHOW TABLES"
+          for t in complaints system_settings departments users; do
+            $MYSQL cityremedy_test -N -e "SHOW TABLES LIKE '$t'" | grep -qx "$t" \
+              || { echo "Table $t was not created in cityremedy_test" >&2; exit 1; }
+          done
 
       - name: Run PHPUnit Tests
         env:
