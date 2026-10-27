@@ -100,6 +100,8 @@ final class HelpersTest extends TestCase {
     }
 
     /** Test save_uploaded_file error conditions */
+
+    // tool-assisted: Qodo; verified against FR-1.2 by Faria Jerin
     public function test_save_uploaded_file_validation_errors(): void {
         $noFile = ['error' => UPLOAD_ERR_NO_FILE];
         $res1 = save_uploaded_file($noFile);
@@ -117,6 +119,8 @@ final class HelpersTest extends TestCase {
     }
 
     /** Test system setting and database helpers */
+
+    // tool-assisted: Qodo; verified against FR-1.1 by Faria Jerin
     public function test_system_settings_and_logging_helpers(): void {
         $val = setting('non_existent_setting_key', 'default_val');
         $this->assertSame('default_val', $val);

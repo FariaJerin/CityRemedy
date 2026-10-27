@@ -10,6 +10,7 @@ final class AuthTest extends TestCase {
     }
 
     /** Test current_user() helper */
+    // tool-assisted: Qodo; verified against FR-3.1 by Faria Jerin
     public function test_current_user_helper(): void {
         unset($_SESSION['cityremedy_user']);
         $this->assertNull(current_user());
@@ -28,6 +29,7 @@ final class AuthTest extends TestCase {
     }
 
     /** Test role check helpers */
+    // tool-assisted: Qodo; verified against FR-3.2 by Faria Jerin
     public function test_role_check_helpers(): void {
         $_SESSION['cityremedy_user'] = ['role' => 'citizen'];
         $this->assertTrue(is_citizen());
@@ -46,6 +48,7 @@ final class AuthTest extends TestCase {
     }
 
     /** Test require_citizen() and require_admin() logic when authenticated */
+    // tool-assisted: Qodo; verified against FR-3.3 by Faria Jerin
     public function test_require_auth_helpers(): void {
         $_SESSION['cityremedy_user'] = ['user_id' => 1, 'role' => 'citizen'];
         $cit = require_citizen();
@@ -57,6 +60,7 @@ final class AuthTest extends TestCase {
     }
 
     /** Test department level permission checks */
+    // tool-assisted: Qodo; verified against FR-3.4 by Faria Jerin
     public function test_department_access_permissions(): void {
         $sysAdmin = ['role' => 'system_admin', 'department_id' => null];
         $deptOfficer = ['role' => 'department_admin', 'department_id' => 2];
@@ -69,6 +73,7 @@ final class AuthTest extends TestCase {
     }
 
     /** Test login_user() and logout_user() session handling safely in CLI */
+    // tool-assisted: Qodo; verified against FR-3.5 by Faria Jerin
     public function test_login_and_logout_user(): void {
         $userData = [
             'user_id' => 10,

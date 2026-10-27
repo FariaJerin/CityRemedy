@@ -4,6 +4,8 @@ use PHPUnit\Framework\TestCase;
 final class SecurityTest extends TestCase {
 
     /** Test CSRF token generation when session is empty vs when already set */
+
+    // tool-assisted: Qodo; verified against FR-2.1 by Faria Jerin
     public function test_csrf_token_generation(): void {
         if (!isset($_SESSION)) {
             $_SESSION = [];
@@ -22,6 +24,8 @@ final class SecurityTest extends TestCase {
     }
 
     /** Test HTML CSRF field generation */
+
+    // tool-assisted: Qodo; verified against FR-2.1 by Faria Jerin
     public function test_csrf_field_generation(): void {
         if (!isset($_SESSION)) {
             $_SESSION = [];
@@ -34,6 +38,8 @@ final class SecurityTest extends TestCase {
     }
 
     /** Test CSRF validation comparison and valid verify_csrf call */
+
+    // tool-assisted: Qodo; verified against FR-2.2 by Faria Jerin
     public function test_csrf_verification_branches(): void {
         if (!isset($_SESSION)) {
             $_SESSION = [];

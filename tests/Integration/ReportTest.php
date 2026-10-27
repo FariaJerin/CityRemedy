@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 final class ReportTest extends TestCase {
 
     /** TC-05: Valid report lookup and category check (FR-4.2, FR-4.3) */
+    // tool-assisted: Qodo; verified against FR-4.2, FR-4.3 by Faria Jerin
     public function test_TC05_valid_report_submission_and_lookup(): void {
         $categoriesList = categories();
         $this->assertIsArray($categoriesList);
@@ -18,6 +19,7 @@ final class ReportTest extends TestCase {
     }
 
     /** TC-06: Incomplete report location logic check (FR-4.2) */
+    // tool-assisted: Qodo; verified against FR-4.2 by Faria Jerin
     public function test_TC06_similar_complaints_short_location_returns_empty(): void {
         // Location under 4 chars returns empty array immediately
         $result = similar_complaints('Road damage', 'St');
@@ -30,6 +32,7 @@ final class ReportTest extends TestCase {
     }
 
     /** TC-07: Public resolutions and timeline queries (FR-4.4, FR-4.5) */
+    // tool-assisted: Qodo; verified against FR-4.4, FR-4.5 by Faria Jerin
     public function test_TC07_public_resolutions_and_timeline(): void {
         $resolutions = public_resolutions(5);
         $this->assertIsArray($resolutions);
@@ -42,6 +45,7 @@ final class ReportTest extends TestCase {
     }
 
     /** TC-08: Public stats aggregation logic (FR-4.4, NFR-5.4b) */
+    // tool-assisted: Qodo; verified against FR-4.4, NFR-5.4b by Faria Jerin
     public function test_TC08_public_stats_aggregation(): void {
         $stats = public_stats();
         $this->assertIsArray($stats);
@@ -52,6 +56,7 @@ final class ReportTest extends TestCase {
     }
 
     /** TC-09: Department complaints filtering (FR-4.4, BR-5.5.1) */
+    // tool-assisted: Qodo; verified against FR-4.4, BR-5.5.1 by Faria Jerin
     public function test_TC09_department_complaint_rows_filtering(): void {
         $adminUser = ['role' => 'system_admin', 'department_id' => 1];
         $officerUser = ['role' => 'officer', 'department_id' => 1];
@@ -71,6 +76,7 @@ final class ReportTest extends TestCase {
     }
 
     /** TC-10: Admin metrics calculation for admin and officer roles (BR-5.5.1, BR-5.5.2) */
+    // tool-assisted: Qodo; verified against BR-5.5.1, BR-5.5.2 by Faria Jerin
     public function test_TC10_admin_metrics_by_role(): void {
         $adminUser = ['role' => 'system_admin', 'department_id' => 1];
         $officerUser = ['role' => 'officer', 'department_id' => 1];
