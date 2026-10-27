@@ -298,7 +298,7 @@ AI assistance is logged in [`USAGE_LOG.md`](USAGE_LOG.md): which tool was used, 
 
 | ID | Name | Role | Email |
 |---|---|---|---|
-| 0432320005101002 | Faria Khanam Jerin | Test lead | o432320005101002@uits.edu.bd |
+| 0432320005101002 | Faria Khanam Jerin | Test lead | 0432320005101002@uits.edu.bd |
 | 0432320005101015 | Fatema Akter Lamia | Developer / reviewer | fatema_akter1015@uits.edu.bd |
 
 Group No. 10 · Instructor: AL Imtiaz, Associate Professor, Department of CSE, UITS.
