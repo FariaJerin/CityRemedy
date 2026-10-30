@@ -5,6 +5,7 @@
 ![MySQL](https://img.shields.io/badge/MySQL-MariaDB-4479A1?logo=mysql&logoColor=white)
 ![Tests](https://img.shields.io/badge/tests-36%20passing-brightgreen)
 ![Coverage](https://img.shields.io/badge/line%20coverage-81.40%25-yellowgreen)
+![Deployment](https://cityremedy-uits.infinityfree.io/)
 
 **Your city, heard.** CityRemedy is a civic issue reporting and tracking web application. Citizens report local infrastructure problems (road damage, streetlight failures, water leakage, garbage, drainage blockage) with photo or PDF evidence. The system routes each report to the responsible city department, lets officers verify it with a numeric validity score, manages the repair, publishes proof of the completed work, and collects citizen feedback to improve municipal accountability.
 
@@ -59,6 +60,7 @@
 
 **Public**
 - Public feed of resolved work with proof photos, plus live statistics (total, under review, in progress, resolved).
+- HTTPS and 24/7 availability verified.
 
 ## Technology stack
 
@@ -292,7 +294,6 @@ AI assistance is logged in [`USAGE_LOG.md`](USAGE_LOG.md): which tool was used, 
 - GIS provider, SMS gateway and hosting/domain provider are undecided in the SRS. The app captures an address and optional coordinates without a map key; email/SMS delivery is not connected (in-portal notifications only).
 - Controller-level and browser end-to-end tests, the validity-threshold rule test, and regression tests for fixed defects are planned.
 - Performance (p95), accessibility, security scans (OWASP ZAP, dependency audit, secret scan), static analysis and usability testing are planned for Experiment 10.
-- HTTPS and 24/7 availability can only be verified after deployment.
 
 ## Team
 
