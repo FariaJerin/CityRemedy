@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CityRemedy: civic issue reporting and tracking</title>
+<meta name="description" content="CityRemedy lets citizens report local infrastructure problems and follow them from report to proof of repair.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f7f9; --surface:#ffffff; --ink:#16233b; --muted:#56627a; --line:#d5dbe6;
+    --accent:#1b6a8a; --accent-ink:#ffffff; --warn-bg:#fff4d6; --warn-ink:#6b4a00;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1624; --surface:#172034; --ink:#e8edf6; --muted:#9aa7c0; --line:#2a3550;
+           --accent:#5bb6d6; --accent-ink:#0f1624; --warn-bg:#3b2f10; --warn-ink:#ffd98a; }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  a{color:var(--accent)}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+  .wrap{max-width:62rem;margin:0 auto;padding:0 1.25rem}
+  header.hero{padding:4rem 0 2.5rem}
+  h1{font-size:clamp(2.6rem,7vw,4.4rem);line-height:1.05;margin:0 0 .5rem;font-weight:700;letter-spacing:-.02em}
+  .tag{font-size:1.25rem;color:var(--muted);max-width:38rem;margin:0 0 2rem}
+
+  /* the characteristic element: the complaint life cycle */
+  ol.life{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr);gap:0;position:relative}
+  ol.life li{position:relative;padding-top:2.1rem;font-size:.95rem;font-weight:500;text-align:center}
+  ol.life li::before{content:"";position:absolute;top:.55rem;left:50%;width:1rem;height:1rem;margin-left:-.5rem;border-radius:50%;
+    background:var(--surface);border:3px solid var(--accent);z-index:1}
+  ol.life li::after{content:"";position:absolute;top:1rem;left:50%;width:100%;height:3px;background:var(--line)}
+  ol.life li:last-child::after{display:none}
+  ol.life li.done::before{background:var(--accent)}
+  ol.life li small{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
+  @media (max-width:640px){
+    ol.life{grid-template-columns:1fr;gap:.25rem}
+    ol.life li{text-align:left;padding:.15rem 0 .15rem 2rem}
+    ol.life li::before{top:.45rem;left:.3rem;margin:0}
+    ol.life li::after{top:1.5rem;left:.75rem;width:3px;height:1.4rem}
+  }
+
+  .notice{background:var(--warn-bg);color:var(--warn-ink);border-radius:.5rem;padding:.9rem 1.1rem;margin:2.2rem 0 0;font-size:.97rem}
+  main section{padding:2.6rem 0;border-top:1px solid var(--line)}
+  h2{font-size:1.6rem;margin:0 0 1rem;letter-spacing:-.01em}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.5rem}
+  .cols h3{margin:0 0 .35rem;font-size:1.05rem}
+  .cols p{margin:0;color:var(--muted)}
+  dl.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:1rem;margin:0}
+  dl.facts div{background:var(--surface);border:1px solid var(--line);border-radius:.5rem;padding:.9rem 1rem}
+  dl.facts dt{color:var(--muted);font-size:.9rem;order:2}
+  dl.facts dd{margin:0;font-size:1.7rem;font-weight:700}
+  dl.facts div{display:flex;flex-direction:column}
+  table{border-collapse:collapse;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:.5rem;overflow:hidden}
+  th,td{text-align:left;padding:.6rem .9rem;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;width:11rem;color:var(--muted)}
+  tr:last-child th,tr:last-child td{border-bottom:0}
+  .links{display:flex;flex-wrap:wrap;gap:.75rem;margin:0;padding:0;list-style:none}
+  .links a{display:inline-block;padding:.65rem 1.1rem;border:2px solid var(--accent);border-radius:.4rem;text-decoration:none;font-weight:600}
+  .links a.primary{background:var(--accent);color:var(--accent-ink)}
+  .links a.todo{border-style:dashed;opacity:.75}
+  footer{padding:2rem 0 3rem;color:var(--muted);font-size:.93rem;border-top:1px solid var(--line)}
+  img.badge{vertical-align:middle;height:20px}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <h1>CityRemedy</h1>
+    <p class="tag">Citizens report about broken streetlights, roads and leaks. Departments verify, fix and publish proof. Every report can be followed from first report to finished repair.</p>
+    <ol class="life" aria-label="Life cycle of a report">
+      <li class="done">Submitted<small>citizen reports</small></li>
+      <li class="done">Under verification<small>officer scores 1–5</small></li>
+      <li class="done">Work assigned<small>work order created</small></li>
+      <li class="done">In progress<small>crew updates</small></li>
+      <li class="done">Resolved<small>proof published</small></li>
+      <li class="done">Closed<small>citizen rates it</small></li>
+    </ol>
+    <p class="notice"><strong>About this page.</strong> CityRemedy is a PHP and MySQL application, and GitHub Pages can only host static files. This page is the project overview; the working application runs on a PHP host (link below once it is live).</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="how">
+    <h2>How it works</h2>
+    <div class="cols">
+      <div><h3>Citizen</h3><p>Reports a problem with a category, an address and up to four photos or PDFs, receives a Complaint ID, follows every status change, can support an existing report, and rates the repair from 1 to 5 stars.</p></div>
+      <div><h3>Department officer</h3><p>Signs in with an access code, sees only their own department’s queue, gives each report a validity score, creates a work order, and uploads proof of the finished work.</p></div>
+      <div><h3>System</h3><p>Routes each of six categories to its department automatically and fast-tracks reports that reach the community vote threshold, without bypassing the officer.</p></div>
+    </div>
+  </section>
+
+  <section id="quality">
+    <h2>Built and tested</h2>
+    <dl class="facts">
+      <div><dd>36 / 36</dd><dt>automated tests passing</dt></div>
+      <div><dd>81.4%</dd><dt>line coverage of the core logic</dt></div>
+      <div><dd>12</dd><dt>database tables</dt></div>
+      <div><dd>2</dd><dt>defects found by review and fixed</dt></div>
+    </dl>
+    <p style="margin-top:1rem"><a href="https://github.com/FariaJerin/CityRemedy/actions/workflows/test.yml"><img class="badge" alt="Run PHPUnit Tests workflow status" src="https://github.com/FariaJerin/CityRemedy/actions/workflows/test.yml/badge.svg?branch=develop"></a></p>
+    <p style="color:var(--muted)">The controller layer, the validity-threshold rule and the non-functional requirements are not yet covered by tests. The full test report lists these limits.</p>
+  </section>
+
+  <section id="stack">
+    <h2>Technology</h2>
+    <table>
+      <tr><th>Front end</th><td>HTML, CSS and plain JavaScript</td></tr>
+      <tr><th>Back end</th><td>PHP 8 with PDO prepared statements, no framework</td></tr>
+      <tr><th>Database</th><td>MySQL / MariaDB</td></tr>
+      <tr><th>Quality</th><td>PHPUnit, Xdebug coverage, GitHub Actions</td></tr>
+    </table>
+  </section>
+
+  <section id="links">
+    <h2>Links</h2>
+    <ul class="links">
+      <li><a class="primary" href="https://github.com/FariaJerin/CityRemedy">Source code on GitHub</a></li>
+      <!-- TODO: replace # with the live PHP site URL once deployed, then remove class="todo" -->
+      <li><a class="todo" href="#links">Live application: add URL when deployed</a></li>
+      <!-- TODO: add the demo video link -->
+      <li><a class="todo" href="#links">Demo video: add link</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    CityRemedy, 416 Software Project Design and Development, Autumn 2026, University of Information Technology and Sciences.<br>
+    Faria Khanam Jerin (0432320005101002) and Fatema Akter Lamia (0432320005101015). Instructor: AL Imtiaz.
+  </div>
+</footer>
+</body>
+</html>
