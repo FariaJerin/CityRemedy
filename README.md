@@ -248,7 +248,7 @@ Results below are from the Experiment 9 run (PHP 8.5.12, PHPUnit 13.4.3, Xdebug 
 
 - Full test report: [`docs/testing/Test_Report.pdf`](docs/testing/) (Team10_Exp9)
 - Coverage report and screenshots: [`docs/testing/evidence/`](docs/testing/evidence/)
-- Deployed Product URL: [https://github.com/FariaJerin/CityRemedy]
+- Deployed Product URL: [https://cityremedy-uits.infinityfree.io/]
 
 ## Continuous integration
 
