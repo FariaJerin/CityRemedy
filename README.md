@@ -5,7 +5,6 @@
 ![MySQL](https://img.shields.io/badge/MySQL-MariaDB-4479A1?logo=mysql&logoColor=white)
 ![Tests](https://img.shields.io/badge/tests-36%20passing-brightgreen)
 ![Coverage](https://img.shields.io/badge/line%20coverage-81.40%25-yellowgreen)
-![Deployment](https://cityremedy-uits.infinityfree.io/)
 
 **Your city, heard.** CityRemedy is a civic issue reporting and tracking web application. Citizens report local infrastructure problems (road damage, streetlight failures, water leakage, garbage, drainage blockage) with photo or PDF evidence. The system routes each report to the responsible city department, lets officers verify it with a numeric validity score, manages the repair, publishes proof of the completed work, and collects citizen feedback to improve municipal accountability.
 
@@ -249,6 +248,7 @@ Results below are from the Experiment 9 run (PHP 8.5.12, PHPUnit 13.4.3, Xdebug 
 
 - Full test report: [`docs/testing/Test_Report.pdf`](docs/testing/) (Team10_Exp9)
 - Coverage report and screenshots: [`docs/testing/evidence/`](docs/testing/evidence/)
+- Deployed Product URL: [https://github.com/FariaJerin/CityRemedy]
 
 ## Continuous integration
 
